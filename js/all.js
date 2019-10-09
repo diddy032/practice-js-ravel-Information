@@ -39,25 +39,25 @@ window.onresize = function () {
 
 //載入JSON檔案
 var xhr = new XMLHttpRequest();
-var url = 'js/datastore_search.json';
+var url = 'https://data.kcg.gov.tw/api/action/datastore_search?resource_id=92290ee5-6e61-456f-80c0-249eae2fcc97';
 xhr.open('get', url, true);
 xhr.send(null);
 xhr.onload = function () {
-  var str = JSON.parse(xhr.responseText);
+  let str = JSON.parse(xhr.responseText);
   data = str.result.records;
   viewData();
 }
 
 function viewData() {
-  var len = data.length;
-  for (var i = 0; i < len; i++) {
+  let len = data.length;
+  for (let i = 0; i < len; i++) {
     DataZone.push(data[i].Zone);
   }
-  var result = DataZone.filter(function (element, index, arr) {
+  let result = DataZone.filter(function (element, index, arr) {
     return arr.indexOf(element) === index;
   });
-  var str = '';
-  for (var i = 0; i < result.length; i++) {
+  let str = '';
+  for (let i = 0; i < result.length; i++) {
     str += '<option value="' + result[i] + '">' + result[i] + '</option>';
   }
   area.innerHTML = '<option value="0">--請選擇行政區--</option> ' + str;
@@ -69,7 +69,7 @@ function viewData() {
 
 //熱門行政區 
 function populorarea(e) {
-  var name = e.target.nodeName
+  let name = e.target.nodeName
   if (name !== 'INPUT') {
     return
   }
@@ -79,7 +79,7 @@ function populorarea(e) {
 //更新list資料
 function changearea(e) {
   select = e.target.value;
-  var str = '';
+  let str = '';
   NowData = [];
   navigationStr = '';
   //如果沒有選擇地區，會出現的內容
@@ -89,7 +89,7 @@ function changearea(e) {
     return;
   }
 
-  for (var i = 0; i < data.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     if (select == data[i].Zone) {
       NowData.push(data[i]);
     }
@@ -99,7 +99,7 @@ function changearea(e) {
   NowPage = 1;
   if (navigationNum > 0) {
     page.classList.remove('disappear');
-    for (var i = 1; i < navigationNum + 1; i++) {
+    for (let i = 1; i < navigationNum + 1; i++) {
       navigationStr += '<li class="page-item"><a id="' + i + '" data-page="' + i + '">' + i + '</a></li>';
     }
   } else {
@@ -109,11 +109,11 @@ function changearea(e) {
 
   //第一頁的內容
   if (navigationNum > 1) {
-    for (var i = 0; i < 8; i++) {
+    for (let i = 0; i < 8; i++) {
       str += '<li class="datd-frame" data-num="' + i + '"> <div class="data-top" style="background-image: url(' + NowData[i].Picture1 + ')"> <div class="data-name">' + NowData[i].Name + '</div> <div class="data-zone">' + NowData[i].Zone + '</div> </div> <ul class="data-bottom"> <li class="data-opentime">' + NowData[i].Opentime + '</li> <li class="data-add">' + NowData[i].Add + '</li> <li class="data-tel">' + NowData[i].Tel + '</li> <li class="data-ticketinof">' + NowData[i].Ticketinfo + '</li> </ul></li>';
     }
   } else {
-    for (var i = 0; i < NowData.length; i++) {
+    for (let i = 0; i < NowData.length; i++) {
       str += '<li class="datd-frame" data-num="' + i + '"> <div class="data-top" style="background-image: url(' + NowData[i].Picture1 + ')"> <div class="data-name">' + NowData[i].Name + '</div> <div class="data-zone">' + NowData[i].Zone + '</div> </div> <ul class="data-bottom"> <li class="data-opentime">' + NowData[i].Opentime + '</li> <li class="data-add">' + NowData[i].Add + '</li> <li class="data-tel">' + NowData[i].Tel + '</li> <li class="data-ticketinof">' + NowData[i].Ticketinfo + '</li> </ul></li>';
     }
   }
@@ -133,7 +133,7 @@ function changearea(e) {
 //換頁更改內容
 function pageClick(e) {
   if (e.target.nodeName !== 'A') { return };
-  var num = e.target.dataset.num; //選取到的數值
+  let num = e.target.dataset.num; //選取到的數值
   if (num == '-1') {
     NowPage = NowPage - 1;
     if (NowPage < 1) { NowPage = 1 };
@@ -144,12 +144,12 @@ function pageClick(e) {
     NowPage = e.target.dataset.page;
   }
 
-  var page = (NowPage - 1) * 8;
-  var str = '';
+  let page = (NowPage - 1) * 8;
+  let str = '';
 
   pageStr(NowPage, navigationStr);
 
-  for (var i = 0; i < 8; i++) {
+  for (let i = 0; i < 8; i++) {
     if ((page + i) < NowData.length) {
       str += '<li class="datd-frame" data-num="' + page + i + '"> <div class="data-top" style="background-image: url(' + NowData[page + i].Picture1 + ')"> <div class="data-name">' + NowData[page + i].Name + '</div> <div class="data-zone">' + NowData[page + i].Zone + '</div> </div> <ul class="data-bottom"> <li class="data-opentime">' + NowData[page + i].Opentime + '</li> <li class="data-add">' + NowData[page + i].Add + '</li> <li class="data-tel">' + NowData[page + i].Tel + '</li> <li class="data-ticketinof">' + NowData[page + i].Ticketinfo + '</li> </ul></li>';
     } else {
@@ -165,8 +165,8 @@ function listStr(select, str) {
 }
 
 function pageStr(NowPage, navigationStr) {
-  var prev = '';
-  var next = '';
+  let prev = '';
+  let next = '';
   if (NowPage == 1) {
     prev = 'page-disabled';
   } else { prev == ''; }
@@ -183,7 +183,7 @@ function pageStr(NowPage, navigationStr) {
 }
 
 function ActPage() {
-  var liPage = document.querySelectorAll('.page-item a')
+  let liPage = document.querySelectorAll('.page-item a')
   document.getElementById('1').classList.add('page-active');
   for (var i = 0; i < navigationNum; i++) {
     if (liPage[i].dataset.page == NowPage) {
